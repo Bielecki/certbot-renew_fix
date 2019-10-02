@@ -1,0 +1,17 @@
+#!/bin/bash
+if ! [ "${UID}" -eq 0 ]; then
+        echo "Unfortunately - this script modifies several system files, so you have to run it as root"
+        echo "Please run $0 with sudo"
+        exit 1
+fi
+
+dir=("/etc/letsencrypt/renewal/")
+files=$( ls $dir
+ )
+counter=0
+for i in $files ; do
+        filename=$(basename -- "$i")
+        filename="${filename%.*}"
+        echo "bash renew-fix.sh $filename"
+        bash renew-fix.sh  $filename
+done
